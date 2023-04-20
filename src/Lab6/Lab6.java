@@ -1,15 +1,6 @@
-package Lab6;
-
-public class Lab6 {
-
-	public static void main(String[] args) {
 
 		// This Lab requires you to program a simple game of Tic Tac Toe
-		//
-		// 		 Note:  there are many ways to implement this game.  Use what 
-		//		  		you have already learned.  You have the tools to implement
-		//		  		this game.  
-		//
+	
 		// Rules:  
 		//		- Tic Tac Toe is a 2-player game played on a 3x3 grid.  
 		//
@@ -43,57 +34,73 @@ public class Lab6 {
 		//				| 4 | 5 | 6 |	-- look-->	|---|---|---|	&	| | | | | | |   & 	|   | X |   |
 		//				+---+---+---+	 at these	+---+---+---+		+---+---+---+		+---+---+---+
 		//				| 7 | 8 | 9 |	8 patterns	|---|---|---|		| | | | | | |		| / |   | \ |
-		//				+---+---+---+		        +---+---+---+		+---+---+---+		+---+---+---+
-			
-			
-		// Start with these steps:
-		//
+		//				+---+---+---+		        +---+---+---+	     +---+---+---
 		//		1. Create a class with a main method -- this Lab can be implemented in just one class.
 		//				
 		//				Alternatively, you could create an object with it's own methods. 
 		//				(e.g. GameBoard.java)
 		//
-		//		2. You will need to declare a gameBoard.  
-		//
-		//				As shown above, Tic Tac Toe is played on a 3x3 grid that has 9 spaces. 
-		//
-		//					a. One suggestion is to create an array of length 9 to represent the board:
-		//
-		//						For example:  String[] gameBoard = new String[9]; 
-		//
-		//							i. Just remember that arrays are 0 based, so to access the grid, 
-		//							the index would go from 0-8.  
-		//
-		//							ii. Wins can occur in 8 ways (see above).
-		//								For example: A horizontal win would be found by 
-		//								looking at the contents of: 
-		//									gameBoard[0] & gameBoard[1] & gameBoard[2] 
-		//									gameBoard[3] & gameBoard[4] & gameBoard[5] 
-		//									gameBoard[6] & gameBoard[7] & gameBoard[8] 
-		//
-		//					b. Another option for the gameBoard would be a 2d array -- This option might be
-		//						is a bit more challenging!  
-		//
-		//						For example:  String[][] gameBoard = new String[3][3];
-		//					
-		//							i. Just remember that arrays are 0 based, so to access the grid, 
-		//							the index would go from 0-2 in two directions.  
-		//
-		//							ii. Wins can occur in 8 ways.  A horizontal win would be comparing:  
-		//									gameBoard[0][0] & gameBoard[0][1] & gameBoard[0][2] 
-		// 
-		//		3.  Implement the rules as listed above.  
-		//
-		//		4.  You might want to have the following methods:
-		//					a. display() -- to print the gameBoard
-		//					b. checkWinStatus() -- to check if a player has won
-		//					c. initialize() -- to set up your new gameBoard
-		//			
-		//		5.  Reminder:  There is no one way to implement this game.
-		//		
-		//	
+
+
+package Lab6;
+
+import java.util.Scanner;
+
+public class Lab6 {
+
+	public static void main(String[] args) {
+		System.out.println(" Tik Tac Toe ");
 		
-		// START YOUR IMPLEMENTATION BELOW THIS LINE
+		// instantiate gamebaord
+		GameBoard gameBoard = new GameBoard();
+		gameBoard.start();
+		gameBoard.showBoard();
+		
+		String winner = "";
+		String player = "X"; // set to X because X plays first
+		int allSquares = 1;
+		int squareNumber;
+		
+		Scanner in = new Scanner(System.in);
+		
+	
+		
+		// Implement rules
+
+		// winner if horizontal, or vertical, or diagonal is matched with x's or o's
+while(winner.equals("") && allSquares <=9) { // keep going until we reach a winner or the # squares is filled
+	System.out.println("\n Player, "+player+" ,please choose a square to place an X/O");
+	String readInput = in.nextLine();
+	squareNumber = Integer.valueOf(readInput);
+	
+	if(squareNumber >0 && squareNumber <=9) { // if valid play
+		if(gameBoard.ifValidSetSquare(squareNumber, readInput, player)) {
+			if(player.equals("X")) {
+				player = "O"; //switch to next player
+			}else {
+				player = "X"; // if O and valid play we switch to X
+			}
+			allSquares++;
+			gameBoard.showBoard();
+			winner = gameBoard.checkWinStatus();
+		}else {
+			System.out.println("Square has already been filled or DNE");
+		}
+		
+	}
+
+	
+}
+
+System.out.println("============");
+System.out.println("Round Over!");
+if(winner.equals("draw")) {
+	System.out.println("This game is a "+winner+"!");
+}else {
+	System.out.println("Player "+winner+" won this round!");
+}
+
+in.close();
 
 	}
 
